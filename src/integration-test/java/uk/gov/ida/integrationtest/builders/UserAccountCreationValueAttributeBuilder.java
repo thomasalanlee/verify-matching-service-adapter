@@ -2,7 +2,7 @@ package uk.gov.ida.integrationtest.builders;
 
 import org.opensaml.saml.saml2.core.Attribute;
 import org.opensaml.saml.saml2.core.AttributeValue;
-import uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute;
+import uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute;
 import uk.gov.ida.saml.core.OpenSamlXmlObjectFactory;
 
 import java.util.ArrayList;
@@ -18,10 +18,10 @@ public class UserAccountCreationValueAttributeBuilder {
         return new UserAccountCreationValueAttributeBuilder();
     }
 
-    public Attribute buildAsAttribute(UserAccountCreationAttribute userAccountCreationAttribute) {
+    public Attribute buildAsAttribute(VerifyUserAccountCreationAttribute verifyUserAccountCreationAttribute) {
         Attribute attribute = build();
 
-        String attributeName = userAccountCreationAttribute.getAttributeName();
+        String attributeName = verifyUserAccountCreationAttribute.getAttributeName();
         attribute.setFriendlyName(attributeName);
         attribute.setName(attributeName);
 

@@ -9,7 +9,7 @@ import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.Attribute;
 import uk.gov.ida.matchingserviceadapter.domain.MatchingServiceAssertion;
-import uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute;
+import uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute;
 import uk.gov.ida.matchingserviceadapter.saml.factories.UserAccountCreationAttributeFactory;
 import uk.gov.ida.saml.core.OpenSamlXmlObjectFactory;
 import uk.gov.ida.saml.core.domain.SimpleMdsValue;
@@ -24,9 +24,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.ida.matchingserviceadapter.builders.MatchingServiceAssertionBuilder.aMatchingServiceAssertion;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.DATE_OF_BIRTH;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.FIRST_NAME;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.MIDDLE_NAME_VERIFIED;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.DATE_OF_BIRTH;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.FIRST_NAME;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.MIDDLE_NAME_VERIFIED;
 
 @RunWith(OpenSAMLRunner.class)
 public class MatchingServiceAssertionToAssertionTransformerTest {
@@ -95,12 +95,12 @@ public class MatchingServiceAssertionToAssertionTransformerTest {
         assertThat(((StringValueSamlObject) firstAttributeValue).getValue()).isEqualTo(dob.toString());
     }
 
-    private XMLObject assertAssertionAndGetAttributeValue(final UserAccountCreationAttribute userAccountCreationAttribute, final Assertion assertion) {
+    private XMLObject assertAssertionAndGetAttributeValue(final VerifyUserAccountCreationAttribute verifyUserAccountCreationAttribute, final Assertion assertion) {
         assertThat(assertion.getAttributeStatements()).hasSize(1);
         List<Attribute> attributes = assertion.getAttributeStatements().get(0).getAttributes();
         assertThat(attributes).hasSize(1);
         Attribute firstAttribute = attributes.get(0);
-        assertThat(firstAttribute.getFriendlyName()).isEqualTo(userAccountCreationAttribute.getAttributeName());
+        assertThat(firstAttribute.getFriendlyName()).isEqualTo(verifyUserAccountCreationAttribute.getAttributeName());
         assertThat(firstAttribute.getAttributeValues()).hasSize(1);
 
         return firstAttribute.getAttributeValues().get(0);

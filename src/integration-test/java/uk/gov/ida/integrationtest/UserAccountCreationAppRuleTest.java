@@ -33,7 +33,7 @@ import uk.gov.ida.integrationtest.builders.UserAccountCreationValueAttributeBuil
 import uk.gov.ida.integrationtest.helpers.AssertionHelper;
 import uk.gov.ida.integrationtest.helpers.MatchingServiceAdapterAppRule;
 import uk.gov.ida.matchingserviceadapter.MatchingServiceAdapterConfiguration;
-import uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute;
+import uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute;
 import uk.gov.ida.matchingserviceadapter.factories.AttributeQueryAttributeFactory;
 import uk.gov.ida.saml.core.OpenSamlXmlObjectFactory;
 import uk.gov.ida.saml.core.extensions.StringValueSamlObject;
@@ -72,16 +72,16 @@ import static uk.gov.ida.integrationtest.builders.UserAccountCreationValueAttrib
 import static uk.gov.ida.integrationtest.helpers.AssertionHelper.aSubjectWithAssertions;
 import static uk.gov.ida.integrationtest.helpers.AssertionHelper.anAuthnStatementAssertion;
 import static uk.gov.ida.integrationtest.helpers.RequestHelper.makeAttributeQueryRequest;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.ADDRESS_HISTORY;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.CURRENT_ADDRESS;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.CURRENT_ADDRESS_VERIFIED;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.CYCLE_3;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.FIRST_NAME;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.FIRST_NAME_VERIFIED;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.MIDDLE_NAME;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.MIDDLE_NAME_VERIFIED;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.SURNAME;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.SURNAME_VERIFIED;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.ADDRESS_HISTORY;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.CURRENT_ADDRESS;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.CURRENT_ADDRESS_VERIFIED;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.CYCLE_3;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.FIRST_NAME;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.FIRST_NAME_VERIFIED;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.MIDDLE_NAME;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.MIDDLE_NAME_VERIFIED;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.SURNAME;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.SURNAME_VERIFIED;
 import static uk.gov.ida.saml.core.domain.SamlStatusCode.CREATED;
 import static uk.gov.ida.saml.core.domain.SamlStatusCode.CREATE_FAILURE;
 import static uk.gov.ida.saml.core.test.TestCertificateStrings.TEST_RP_MS_PRIVATE_SIGNING_KEY;
@@ -257,16 +257,16 @@ public class UserAccountCreationAppRuleTest {
 
     }
 
-    private Attribute userAccountCreationAttributeFor(AttributeValue attributeValue, UserAccountCreationAttribute userAccountCreationAttribute) {
-        return aUserAccountCreationAttributeValue().addValue(attributeValue).buildAsAttribute(userAccountCreationAttribute);
+    private Attribute userAccountCreationAttributeFor(AttributeValue attributeValue, VerifyUserAccountCreationAttribute verifyUserAccountCreationAttribute) {
+        return aUserAccountCreationAttributeValue().addValue(attributeValue).buildAsAttribute(verifyUserAccountCreationAttribute);
     }
 
-    private Attribute userAccountCreationAttributeFor(List<AttributeValue> attributeValues, UserAccountCreationAttribute userAccountCreationAttribute) {
+    private Attribute userAccountCreationAttributeFor(List<AttributeValue> attributeValues, VerifyUserAccountCreationAttribute verifyUserAccountCreationAttribute) {
         UserAccountCreationValueAttributeBuilder attributeBuilder = aUserAccountCreationAttributeValue();
         for(AttributeValue attributeValue : attributeValues) {
             attributeBuilder.addValue(attributeValue);
         }
-        return attributeBuilder.buildAsAttribute(userAccountCreationAttribute);
+        return attributeBuilder.buildAsAttribute(verifyUserAccountCreationAttribute);
     }
 
     private void assertThatResponseContainsExpectedUserCreationAttributes(List<AttributeStatement>  attributeStatements, final List<Attribute> expectedUserCreationAttributes) {

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import org.joda.time.DateTime;
 import org.opensaml.saml.saml2.core.Attribute;
 import uk.gov.ida.matchingserviceadapter.domain.ProxyNodeAssertion;
-import uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute;
+import uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute;
 import uk.gov.ida.matchingserviceadapter.factories.AttributeQueryAttributeFactory;
 import uk.gov.ida.matchingserviceadapter.saml.transformers.inbound.InboundEidasMatchingServiceRequest;
 import uk.gov.ida.matchingserviceadapter.saml.transformers.inbound.InboundVerifyMatchingServiceRequest;
@@ -32,7 +32,7 @@ public class InboundMatchingServiceRequestBuilder {
     private Optional<HubAssertion> cycle3AttributeAssertion = Optional.empty();
     private String requestIssuerEntityId = "issuer-id";
     private String assertionConsumerServiceUrl = "/foo";
-    private List<UserAccountCreationAttribute> userCreationAttributes = ImmutableList.of();
+    private List<VerifyUserAccountCreationAttribute> userCreationAttributes = ImmutableList.of();
 
     public static InboundMatchingServiceRequestBuilder anInboundMatchingServiceRequest() {
         return new InboundMatchingServiceRequestBuilder();
@@ -99,7 +99,7 @@ public class InboundMatchingServiceRequestBuilder {
         return this;
     }
 
-    public InboundMatchingServiceRequestBuilder withUserCreationAttributes(List<UserAccountCreationAttribute> userCreationAttributes) {
+    public InboundMatchingServiceRequestBuilder withUserCreationAttributes(List<VerifyUserAccountCreationAttribute> userCreationAttributes) {
         this.userCreationAttributes = userCreationAttributes;
         return this;
     }

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
-public enum UserAccountCreationAttribute implements Serializable, AttributeExtractor {
+public enum VerifyUserAccountCreationAttribute implements Serializable, AttributeExtractor {
     FIRST_NAME("firstname"){
         @Override
         public Optional<Attribute> transform(MatchingDataset matchingDataset, HubAssertion cycle3Assertion) {List<SimpleMdsValue<String>> firstNameAttributeValues = getAttributeValuesWithoutMdsDetails(matchingDataset.getFirstNames());
@@ -30,7 +30,7 @@ public enum UserAccountCreationAttribute implements Serializable, AttributeExtra
         @Override
         public Optional<Attribute> transform(MatchingDataset matchingDataset, HubAssertion cycle3Assertion) {
             return getCurrentValue(matchingDataset.getFirstNames())
-                    .map((SimpleMdsValue<String> stringSimpleMdsValue) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(UserAccountCreationAttribute.FIRST_NAME_VERIFIED, stringSimpleMdsValue.isVerified()));
+                    .map((SimpleMdsValue<String> stringSimpleMdsValue) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(VerifyUserAccountCreationAttribute.FIRST_NAME_VERIFIED, stringSimpleMdsValue.isVerified()));
         }
     },
     MIDDLE_NAME("middlename"){
@@ -44,7 +44,7 @@ public enum UserAccountCreationAttribute implements Serializable, AttributeExtra
         @Override
         public Optional<Attribute> transform(MatchingDataset matchingDataset, HubAssertion cycle3Assertion) {
             return getCurrentValue(matchingDataset.getMiddleNames())
-                    .map((SimpleMdsValue<String> stringSimpleMdsValue) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(UserAccountCreationAttribute.MIDDLE_NAME_VERIFIED, stringSimpleMdsValue.isVerified()));
+                    .map((SimpleMdsValue<String> stringSimpleMdsValue) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(VerifyUserAccountCreationAttribute.MIDDLE_NAME_VERIFIED, stringSimpleMdsValue.isVerified()));
         }
     },
     SURNAME("surname"){
@@ -58,7 +58,7 @@ public enum UserAccountCreationAttribute implements Serializable, AttributeExtra
         @Override
         public Optional<Attribute> transform(MatchingDataset matchingDataset, HubAssertion cycle3Assertion) {
             return getCurrentValue(matchingDataset.getSurnames())
-                    .map((SimpleMdsValue<String> stringSimpleMdsValue) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(UserAccountCreationAttribute.SURNAME_VERIFIED, stringSimpleMdsValue.isVerified()));
+                    .map((SimpleMdsValue<String> stringSimpleMdsValue) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(VerifyUserAccountCreationAttribute.SURNAME_VERIFIED, stringSimpleMdsValue.isVerified()));
         }
     },
     DATE_OF_BIRTH("dateofbirth"){
@@ -72,7 +72,7 @@ public enum UserAccountCreationAttribute implements Serializable, AttributeExtra
         @Override
         public Optional<Attribute> transform(MatchingDataset matchingDataset, HubAssertion cycle3Assertion) {
             return getCurrentValue(matchingDataset.getDateOfBirths())
-                    .map((SimpleMdsValue<LocalDate> localDateSimpleMdsValue) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(UserAccountCreationAttribute.DATE_OF_BIRTH_VERIFIED, localDateSimpleMdsValue.isVerified()));
+                    .map((SimpleMdsValue<LocalDate> localDateSimpleMdsValue) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(VerifyUserAccountCreationAttribute.DATE_OF_BIRTH_VERIFIED, localDateSimpleMdsValue.isVerified()));
         }
     },
     CURRENT_ADDRESS("currentaddress"){
@@ -86,7 +86,7 @@ public enum UserAccountCreationAttribute implements Serializable, AttributeExtra
         @Override
         public Optional<Attribute> transform(MatchingDataset matchingDataset, HubAssertion cycle3Assertion) {
             return extractCurrentAddress(matchingDataset.getCurrentAddresses())
-                    .map((Address address) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(UserAccountCreationAttribute.CURRENT_ADDRESS_VERIFIED, address.isVerified()));
+                    .map((Address address) -> userAccountCreationAttributeFactory.createUserAccountCreationVerifiedAttribute(VerifyUserAccountCreationAttribute.CURRENT_ADDRESS_VERIFIED, address.isVerified()));
         }
     },
     ADDRESS_HISTORY("addresshistory"){
@@ -109,7 +109,7 @@ public enum UserAccountCreationAttribute implements Serializable, AttributeExtra
 
     private String attributeName;
 
-    UserAccountCreationAttribute(final String attributeName) {
+    VerifyUserAccountCreationAttribute(final String attributeName) {
         this.attributeName = attributeName;
     }
 
@@ -117,7 +117,7 @@ public enum UserAccountCreationAttribute implements Serializable, AttributeExtra
         return attributeName;
     }
 
-    public static UserAccountCreationAttribute getUserAccountCreationAttribute(final String name){
+    public static VerifyUserAccountCreationAttribute getUserAccountCreationAttribute(final String name){
         return Arrays.stream(values())
                 .filter(value -> value.getAttributeName().equals(name))
                 .findFirst()

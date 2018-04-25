@@ -29,14 +29,14 @@ import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.ADDRESS_HISTORY;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.CYCLE_3;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.FIRST_NAME;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.SURNAME;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.SURNAME_VERIFIED;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.ADDRESS_HISTORY;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.CYCLE_3;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.FIRST_NAME;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.SURNAME;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.SURNAME_VERIFIED;
 
 @RunWith(OpenSAMLRunner.class)
-public class UserAccountCreationAttributeExtractorTest {
+public class VerifyUserAccountCreationAttributeExtractorTest {
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -67,7 +67,7 @@ public class UserAccountCreationAttributeExtractorTest {
 
     @Test
     public void shouldReturnCurrentAddressWhenMatchingDatasetHasListOfAddresses() {
-        List<Attribute> accountCreationAttributes = singletonList(UserAccountCreationAttribute.CURRENT_ADDRESS).stream()
+        List<Attribute> accountCreationAttributes = singletonList(VerifyUserAccountCreationAttribute.CURRENT_ADDRESS).stream()
                 .map(attributeQueryAttributeFactory::createAttribute)
                 .collect(toList());
 
@@ -105,7 +105,7 @@ public class UserAccountCreationAttributeExtractorTest {
 
     @Test
     public void shouldReturnCurrentAddressWhetherItIsVerifiedOrNot() {
-        List<Attribute> accountCreationAttributes = singletonList(UserAccountCreationAttribute.CURRENT_ADDRESS).stream()
+        List<Attribute> accountCreationAttributes = singletonList(VerifyUserAccountCreationAttribute.CURRENT_ADDRESS).stream()
                 .map(attributeQueryAttributeFactory::createAttribute)
                 .collect(toList());
 

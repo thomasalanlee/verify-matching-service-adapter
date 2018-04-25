@@ -9,7 +9,7 @@ public class VerifyUserAccountCreationAttributeExtractor extends UserAccountCrea
     }
 
     @Override
-    UserAccountCreationAttribute getAttributeExtractor(String name) {
-         return UserAccountCreationAttribute.getUserAccountCreationAttribute(name);
+    VerifyUserAccountCreationAttribute getAttributeExtractor(String name) {
+         return VerifyUserAccountCreationAttribute.getUserAccountCreationAttribute(name);
     }
 }

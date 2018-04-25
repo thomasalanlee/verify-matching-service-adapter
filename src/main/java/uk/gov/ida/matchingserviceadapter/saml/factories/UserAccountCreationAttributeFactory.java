@@ -5,7 +5,7 @@ import org.joda.time.LocalDate;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.saml2.core.Attribute;
 import org.opensaml.saml.saml2.core.AttributeValue;
-import uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute;
+import uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute;
 import uk.gov.ida.saml.core.OpenSamlXmlObjectFactory;
 import uk.gov.ida.saml.core.domain.Address;
 import uk.gov.ida.saml.core.domain.SimpleMdsValue;
@@ -27,15 +27,15 @@ public class UserAccountCreationAttributeFactory {
     }
 
     public Attribute createUserAccountCreationFirstnameAttribute(List<SimpleMdsValue<String>> firstnames) {
-        return createPersonNameAttribute(firstnames, UserAccountCreationAttribute.FIRST_NAME);
+        return createPersonNameAttribute(firstnames, VerifyUserAccountCreationAttribute.FIRST_NAME);
     }
 
     public Attribute createUserAccountCreationMiddlenameAttribute(List<SimpleMdsValue<String>> middlenames) {
-        return createPersonNameAttribute(middlenames, UserAccountCreationAttribute.MIDDLE_NAME);
+        return createPersonNameAttribute(middlenames, VerifyUserAccountCreationAttribute.MIDDLE_NAME);
     }
 
     public Attribute createUserAccountCreationSurnameAttribute(List<SimpleMdsValue<String>> surnames) {
-        return createPersonNameAttribute(surnames, UserAccountCreationAttribute.SURNAME);
+        return createPersonNameAttribute(surnames, VerifyUserAccountCreationAttribute.SURNAME);
     }
 
     public Attribute createUserAccountCreationDateOfBirthAttribute(List<SimpleMdsValue<LocalDate>> dateOfBirths) {
@@ -44,7 +44,7 @@ public class UserAccountCreationAttributeFactory {
             dateOfBirthAttributeValues.add(createAttributeValuesForDate(dateOfBirth));
         }
         return createAttribute(
-                UserAccountCreationAttribute.DATE_OF_BIRTH,
+                VerifyUserAccountCreationAttribute.DATE_OF_BIRTH,
                 dateOfBirthAttributeValues
         );
     }
@@ -55,7 +55,7 @@ public class UserAccountCreationAttributeFactory {
             addressValues.add(createAddressAttributeValue(address));
         }
         return createAttribute(
-                UserAccountCreationAttribute.CURRENT_ADDRESS,
+                VerifyUserAccountCreationAttribute.CURRENT_ADDRESS,
                 addressValues);
     }
 
@@ -65,12 +65,12 @@ public class UserAccountCreationAttributeFactory {
             addressValues.add(createAddressAttributeValue(address));
         }
         return createAttribute(
-                UserAccountCreationAttribute.ADDRESS_HISTORY,
+                VerifyUserAccountCreationAttribute.ADDRESS_HISTORY,
                 addressValues);
     }
 
-    public Attribute createUserAccountCreationVerifiedAttribute(UserAccountCreationAttribute userAccountCreationAttribute, boolean verified) {
-        return createAttribute(userAccountCreationAttribute,
+    public Attribute createUserAccountCreationVerifiedAttribute(VerifyUserAccountCreationAttribute verifyUserAccountCreationAttribute, boolean verified) {
+        return createAttribute(verifyUserAccountCreationAttribute,
                 ImmutableList.of(openSamlXmlObjectFactory.createVerifiedAttributeValue(verified))
         );
     }
@@ -80,16 +80,16 @@ public class UserAccountCreationAttributeFactory {
         for (String cycle3Attribute : cycle3Attributes) {
             cycle3AttributeValues.add(openSamlXmlObjectFactory.createSimpleMdsAttributeValue(cycle3Attribute));
         }
-        return createAttribute(UserAccountCreationAttribute.CYCLE_3, cycle3AttributeValues);
+        return createAttribute(VerifyUserAccountCreationAttribute.CYCLE_3, cycle3AttributeValues);
     }
 
-    private Attribute createPersonNameAttribute(List<SimpleMdsValue<String>> names, final UserAccountCreationAttribute userAccountCreationAttribute) {
+    private Attribute createPersonNameAttribute(List<SimpleMdsValue<String>> names, final VerifyUserAccountCreationAttribute verifyUserAccountCreationAttribute) {
         List<AttributeValue> nameValues = new ArrayList<>();
         for (SimpleMdsValue<String> name : names) {
             nameValues.add(createAttributeValueForPersonName(name));
         }
         return createAttribute(
-                userAccountCreationAttribute,
+                verifyUserAccountCreationAttribute,
                 nameValues
         );
     }
@@ -119,10 +119,10 @@ public class UserAccountCreationAttributeFactory {
         return addressAttributeValue;
     }
 
-    private Attribute createAttribute(UserAccountCreationAttribute userAccountCreationAttribute, List<? extends XMLObject> attributeValues) {
+    private Attribute createAttribute(VerifyUserAccountCreationAttribute verifyUserAccountCreationAttribute, List<? extends XMLObject> attributeValues) {
         Attribute attribute = openSamlXmlObjectFactory.createAttribute();
 
-        String attributeName = userAccountCreationAttribute.getAttributeName();
+        String attributeName = verifyUserAccountCreationAttribute.getAttributeName();
         attribute.setName(attributeName);
         attribute.setFriendlyName(attributeName);
         attribute.setNameFormat(Attribute.UNSPECIFIED);

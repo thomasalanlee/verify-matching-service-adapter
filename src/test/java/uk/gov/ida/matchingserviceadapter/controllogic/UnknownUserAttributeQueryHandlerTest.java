@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 import static uk.gov.ida.matchingserviceadapter.builders.IdentityProviderAuthnStatementBuilder.anIdentityProviderAuthnStatement;
 import static uk.gov.ida.matchingserviceadapter.builders.InboundMatchingServiceRequestBuilder.anInboundMatchingServiceRequest;
 import static uk.gov.ida.matchingserviceadapter.builders.MatchingDatasetBuilder.aMatchingDataset;
-import static uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttribute.FIRST_NAME;
+import static uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttribute.FIRST_NAME;
 import static uk.gov.ida.matchingserviceadapter.rest.UnknownUserCreationResponseDto.FAILURE;
 import static uk.gov.ida.matchingserviceadapter.rest.UnknownUserCreationResponseDto.SUCCESS;
 import static uk.gov.ida.matchingserviceadapter.builders.IdentityProviderAssertionBuilder.anIdentityProviderAssertion;
