@@ -37,29 +37,40 @@ public class UnknownUserAttributeQueryHandler {
     private final AssertionLifetimeConfiguration assertionLifetimeConfiguration;
     private final MatchingServiceProxy matchingServiceProxy;
     private final UserAccountCreationAttributeExtractor userAccountCreationAttributeExtractor;
+    private final UserAccountCreationAttributeExtractor userEidasAccountCreationAttributeExtractor;
 
     @Inject
     public UnknownUserAttributeQueryHandler(
-        UserIdHashFactory userIdHashFactory,
-        MatchingServiceAdapterConfiguration matchingServiceAdapterConfiguration,
-        MatchingServiceAssertionFactory matchingServiceAssertionFactory,
-        AssertionLifetimeConfiguration assertionLifetimeConfiguration,
-        MatchingServiceProxy matchingServiceProxy,
-        UserAccountCreationAttributeExtractor userAccountCreationAttributeExtractor) {
+            UserIdHashFactory userIdHashFactory,
+            MatchingServiceAdapterConfiguration matchingServiceAdapterConfiguration,
+            MatchingServiceAssertionFactory matchingServiceAssertionFactory,
+            AssertionLifetimeConfiguration assertionLifetimeConfiguration,
+            MatchingServiceProxy matchingServiceProxy,
+            UserAccountCreationAttributeExtractor userAccountCreationAttributeExtractor) {
         this.userIdHashFactory = userIdHashFactory;
         this.matchingServiceAdapterConfiguration = matchingServiceAdapterConfiguration;
         this.matchingServiceAssertionFactory = matchingServiceAssertionFactory;
         this.assertionLifetimeConfiguration = assertionLifetimeConfiguration;
         this.matchingServiceProxy = matchingServiceProxy;
         this.userAccountCreationAttributeExtractor = userAccountCreationAttributeExtractor;
+        userEidasAccountCreationAttributeExtractor = userAccountCreationAttributeExtractor;
+        //TODO Eidas specific version
     }
 
-    public OutboundResponseFromUnknownUserCreationService handle(InboundVerifyMatchingServiceRequest attributeQuery) {
+    public OutboundResponseFromUnknownUserCreationService createNewVerifyAccount(InboundVerifyMatchingServiceRequest attributeQuery) {
+        return createAccount(attributeQuery, userAccountCreationAttributeExtractor);
+    }
+
+    public OutboundResponseFromUnknownUserCreationService createNewEidasAccount(InboundVerifyMatchingServiceRequest attributeQuery) {
+        return createAccount(attributeQuery, userEidasAccountCreationAttributeExtractor);
+    }
+
+    private OutboundResponseFromUnknownUserCreationService createAccount(InboundVerifyMatchingServiceRequest attributeQuery, UserAccountCreationAttributeExtractor extractor) {
         IdentityProviderAssertion matchingDatasetAssertion = attributeQuery.getMatchingDatasetAssertion();
         IdentityProviderAssertion authnStatementAssertion = attributeQuery.getAuthnStatementAssertion();
         final String hashedPid = userIdHashFactory.hashId(matchingDatasetAssertion.getIssuerId(),
-            matchingDatasetAssertion.getPersistentId().getNameId(),
-            authnStatementAssertion.getAuthnStatement().map(IdentityProviderAuthnStatement::getAuthnContext));
+                matchingDatasetAssertion.getPersistentId().getNameId(),
+                authnStatementAssertion.getAuthnStatement().map(IdentityProviderAuthnStatement::getAuthnContext));
 
         LevelOfAssuranceDto levelOfAssurance = AuthnContextToLevelOfAssuranceDtoMapper.map(attributeQuery.getAuthnStatementAssertion().getAuthnStatement().get().getAuthnContext());
         UnknownUserCreationResponseDto unknownUserCreationResponseDto = matchingServiceProxy.makeUnknownUserCreationRequest(new UnknownUserCreationRequestDto(hashedPid, levelOfAssurance));
@@ -68,10 +79,13 @@ public class UnknownUserAttributeQueryHandler {
         }
 
         Optional<MatchingDataset> matchingDataset = attributeQuery.getMatchingDatasetAssertion().getMatchingDataset();
-        List<Attribute> extractedUserAccountCreationAttributes = userAccountCreationAttributeExtractor.getUserAccountCreationAttributes(
-                attributeQuery.getUserCreationAttributes(),
-                matchingDataset,
-                attributeQuery.getCycle3AttributeAssertion());
+
+        List<Attribute> extractedUserAccountCreationAttributes =
+                extractor.getUserAccountCreationAttributes(
+                                attributeQuery.getUserCreationAttributes(),
+                                matchingDataset,
+                                attributeQuery.getCycle3AttributeAssertion()
+                        );
 
         final OutboundResponseFromUnknownUserCreationService matchingServiceResponse = getMatchingServiceResponse(attributeQuery, hashedPid, extractedUserAccountCreationAttributes);
         LOG.info(MessageFormat.format("Result from unknown attribute query request for id {0} is {1}", attributeQuery.getId(), matchingServiceResponse.getStatus()));
