@@ -11,6 +11,7 @@ import uk.gov.ida.matchingserviceadapter.domain.MatchingServiceAssertion;
 import uk.gov.ida.matchingserviceadapter.domain.MatchingServiceAssertionFactory;
 import uk.gov.ida.matchingserviceadapter.domain.OutboundResponseFromUnknownUserCreationService;
 import uk.gov.ida.matchingserviceadapter.domain.UserAccountCreationAttributeExtractor;
+import uk.gov.ida.matchingserviceadapter.domain.VerifyUserAccountCreationAttributeExtractor;
 import uk.gov.ida.matchingserviceadapter.mappers.AuthnContextToLevelOfAssuranceDtoMapper;
 import uk.gov.ida.matchingserviceadapter.proxies.MatchingServiceProxy;
 import uk.gov.ida.matchingserviceadapter.rest.UnknownUserCreationRequestDto;
@@ -46,7 +47,7 @@ public class UnknownUserAttributeQueryHandler {
             MatchingServiceAssertionFactory matchingServiceAssertionFactory,
             AssertionLifetimeConfiguration assertionLifetimeConfiguration,
             MatchingServiceProxy matchingServiceProxy,
-            UserAccountCreationAttributeExtractor userAccountCreationAttributeExtractor) {
+            VerifyUserAccountCreationAttributeExtractor userAccountCreationAttributeExtractor) {
         this.userIdHashFactory = userIdHashFactory;
         this.matchingServiceAdapterConfiguration = matchingServiceAdapterConfiguration;
         this.matchingServiceAssertionFactory = matchingServiceAssertionFactory;
@@ -83,9 +84,8 @@ public class UnknownUserAttributeQueryHandler {
         List<Attribute> extractedUserAccountCreationAttributes =
                 extractor.getUserAccountCreationAttributes(
                                 attributeQuery.getUserCreationAttributes(),
-                                matchingDataset,
-                                attributeQuery.getCycle3AttributeAssertion()
-                        );
+                        matchingDataset.orElse(null), attributeQuery.getCycle3AttributeAssertion().orElse(null)
+                );
 
         final OutboundResponseFromUnknownUserCreationService matchingServiceResponse = getMatchingServiceResponse(attributeQuery, hashedPid, extractedUserAccountCreationAttributes);
         LOG.info(MessageFormat.format("Result from unknown attribute query request for id {0} is {1}", attributeQuery.getId(), matchingServiceResponse.getStatus()));
